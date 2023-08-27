@@ -1,28 +1,26 @@
 import { useState } from 'react';
-import { flushSync } from 'react-dom';
 
 function App() {
-	console.log('re-render');
-	const [Count1, setCount1] = useState(0);
-	const [Count2, setCount2] = useState(0);
-	const [Count3, setCount3] = useState(0);
+	const [Count, setCount] = useState(0);
+	const [Items, setItems] = useState([]);
 
-	const returnPromise = () => new Promise((res) => setTimeout(res, 500));
+	const handleClick = () => {
+		setCount(Count + 1);
 
-	const handleClick = async () => {
-		await returnPromise();
-		setCount1(Count1 + 1);
-		// flushSync를 이용하면 특정 state변경을 batching처리에서 제외
-		flushSync(() => setCount2(Count2 + 2));
-		flushSync(() => setCount3(Count3 + 3));
+		const arr = Array(10000)
+			.fill(1)
+			.map((_, idx) => Count + idx);
+		setItems(arr);
 	};
 
 	return (
 		<div className='App'>
-			<button onClick={handleClick}>button</button>
-			<h1>
-				{Count1} - {Count2} - {Count3}
-			</h1>
+			<button onClick={handleClick}>{Count}</button>
+			<ul>
+				{Items.map((num) => (
+					<li key={num}>{num}</li>
+				))}
+			</ul>
 		</div>
 	);
 }
@@ -30,7 +28,8 @@ function App() {
 export default App;
 
 /*
-  Automatic Batching
-  : 핸들러함수 안쪽에서 복수개의 state가 변경될때 해당 변경사항들을 묶어서 (batching)해서 한번만 리랜더링
-	: 기존 17버전에 batching은 적용되고 있었으나 핸들러안쪽에 promise가 반환되면 batching해제되는 문제가 18에선 해결됨
+  useTransition
+	: 컴포넌트 렌더링시 연산의 우선순위를 줘서 좀 늦게 렌더링처리해도 될 요소를 지정
+	: 기존에는 한번 렌더링 연산이 시작되면 중간에 멈추는게 불가
+	: 특정 핸들러 함수에 의해서 화면을 재연산해서 렌더링해야 되는 경우 중간에 무거운 연산처리가 있으면 나머지 연산도 같이 지연이 일어남
 */
