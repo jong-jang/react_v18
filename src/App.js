@@ -1,25 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
-
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div className='App'>
+			<h1>hello</h1>
+		</div>
+	);
 }
 
 export default App;
+
+/* 
+  Aotomatic Batching
+  : 핸들러함수 안쪽에서 복수개의 state가 변경될때 해당 변경사항들을 묶어서 (batching)해서 한번만 리랜더링
+*/
