@@ -1,35 +1,30 @@
-import { useState } from 'react';
-
 function App() {
-	const [Count, setCount] = useState(0);
-	const [Items, setItems] = useState([]);
-
-	const handleClick = () => {
-		setCount(Count + 1);
-
-		const arr = Array(10000)
-			.fill(1)
-			.map((_, idx) => Count + idx);
-		setItems(arr);
-	};
-
-	return (
-		<div className='App'>
-			<button onClick={handleClick}>{Count}</button>
-			<ul>
-				{Items.map((num) => (
-					<li key={num}>{num}</li>
-				))}
-			</ul>
-		</div>
-	);
+	return <div className='App'></div>;
 }
 
 export default App;
 
-/*
-  useTransition
-	: 컴포넌트 렌더링시 연산의 우선순위를 줘서 좀 늦게 렌더링처리해도 될 요소를 지정
-	: 기존에는 한번 렌더링 연산이 시작되면 중간에 멈추는게 불가
-	: 특정 핸들러 함수에 의해서 화면을 재연산해서 렌더링해야 되는 경우 중간에 무거운 연산처리가 있으면 나머지 연산도 같이 지연이 일어남
+/* 
+	기존의 CSR, SSR방식 차이
+
+	예전의 SSR 작업흐름
+	1. 정적인 HTML파일을 서버로부터 가져옴
+	2. 추후 동적인 데이터가 필요할때마다 다시 서버쪽에 요청해서 전체파일을 full load (화면 깜빡임)
+	3. 이후 ajax라는 비동기 서버통신 기술이 생기면서 전체화면을 다시 full load하지 않고 필요한 데이터만 실시간으로 호출가능
+	4. 비동기 데이터를 이용해서 자바스크립트로 일일이 동적 DOM을 생성하고 관리해야되는 번거로움 발생
+
+	CSR 작업 흐름
+	1. 빈 HTML 파일을 서버로부터 가져옴
+	2. 자바스크립트 파일로드 (React 파일)
+	3. 리액트 컴포넌트가 로드 (Data fetching)
+	4. 컴포넌트 해석후 렌더링 시작
+	5. 최종화면에 동적 DOM생성 (1~4 사용자는 빈화면을 rendering)
+
+	React18버전에서의 SSR 작업흐름
+	1. 서버쪽에서 미리 static한 프리랜더링된 html파일 로드
+	2. 미리 렌더링된 정적인 화면을 바로 생성 (정적화면 미리 생성)
+	3. 자바스크립트 파일 로드
+	4. 동적 데이터를 다루는 리액트 컴포넌트 해석
+	5. 기존 정적인 화면에 동적으로 연동될 부분만 대체 (hydration) Suspense활용
+
 */
