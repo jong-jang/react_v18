@@ -1,4 +1,11 @@
+import { useEffect } from 'react';
+import { useGetData } from './useGetData';
+
 function App() {
+	const data = useGetData();
+	useEffect(() => {
+		console.log(data);
+	}, [data]);
 	return <div className='App'></div>;
 }
 
@@ -34,5 +41,5 @@ export default App;
 	- 활용예 : 서버로부터 무거운 데이터를 fetching해야 되는 컴포넌트의 경우 해당 컴포넌트 출력전까지 자동으로 로딩바 출력
 
 	Suspense를 사용하기 위한 조건
-	- Suspense로 특정 컴포넌트를 동기화시키기 위해서는 내부에 promise 객체 생성을 추적할 수 있어야됨
+	- Suspense로 특정 컴포넌트를 동기화시키기 위해서는 내부에 promise 객체 상태(pending, fulfilled, rejected)을 추적할 수 있어야됨
 */
